@@ -17,12 +17,15 @@ import java.util.LinkedList;
 
 public class MainActivity extends AppCompatActivity {
     private ListView listView;
-    private LinkedList<HashMap<String,String>> data;
+    private LinkedList<HashMap<String,Object>> data;
     private SimpleAdapter adapter;
-    private String[] from = {"title", "cont"};
-    private int[] to = {R.id.item_title, R.id.item_cont};
+    private String[] from = {"title", "cont", "img"};
+    private int[] to = {R.id.item_title, R.id.item_cont, R.id.item_img};
     private int removeIndex = -1;
     private int dataIndex = 0;
+
+    private int[] imgs = {R.drawable.android, R.drawable.a1,
+    R.drawable.a2, R.drawable.a3};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,25 +38,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListView(){
-        HashMap<String,String> data0 = new HashMap<>();
+        HashMap<String,Object> data0 = new HashMap<>();
         data0.put(from[0], "Hello, World");
         data0.put(from[1], "hello, World");
+        data0.put(from[2], imgs[(int)(Math.random()*imgs.length)]);
         data0.put("index", "" + dataIndex++);
         data0.put("detail", "我是詳細資料");
         data.add(data0);
 
-        HashMap<String,String> data1 = new HashMap<>();
+        HashMap<String,Object> data1 = new HashMap<>();
         data1.put(from[0], "LayoutTest");
         data1.put(from[1], "練習版面配置");
         data1.put("index", "" + dataIndex++);
         data1.put("detail", "我是詳細資料");
+        data1.put(from[2], imgs[(int)(Math.random()*imgs.length)]);
         data.add(data1);
 
-        HashMap<String,String> data2 = new HashMap<>();
+        HashMap<String,Object> data2 = new HashMap<>();
         data2.put(from[0], "GuessNumber");
         data2.put(from[1], "猜數字遊戲");
         data2.put("index", "" + dataIndex++);
         data2.put("detail", "我是詳細資料");
+        data2.put(from[2], imgs[(int)(Math.random()*imgs.length)]);
         data.add(data2);
 
         adapter = new SimpleAdapter(this,
@@ -91,10 +97,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void gotoDetail(int position){
         Intent intent = new Intent(this, DetailActivity.class);
-        intent.putExtra("index", data.get(position).get("index"));
-        intent.putExtra("title", data.get(position).get("title"));
-        intent.putExtra("cont", data.get(position).get("cont"));
-        intent.putExtra("detail", data.get(position).get("detail"));
+        intent.putExtra("index", (String)data.get(position).get("index"));
+        intent.putExtra("title", (String)data.get(position).get("title"));
+        intent.putExtra("cont", (String)data.get(position).get("cont"));
+        intent.putExtra("detail", (String)data.get(position).get("detail"));
         startActivity(intent);
     }
 
@@ -125,11 +131,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addItem(View view) {
-        HashMap<String,String> data2 = new HashMap<>();
+        HashMap<String,Object> data2 = new HashMap<>();
         data2.put(from[0], "new data");
         data2.put(from[1], "OK");
         data2.put("index", "" + dataIndex++);
         data2.put("detail", "我是詳細資料");
+        data2.put(from[2], imgs[(int)(Math.random()*imgs.length)]);
         data.add(data2);
 
         adapter.notifyDataSetChanged();
