@@ -1,5 +1,7 @@
 package tw.org.iii.mylisttest;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private SimpleAdapter adapter;
     private String[] from = {"title", "cont"};
     private int[] to = {R.id.item_title, R.id.item_cont};
+    private int removeIndex = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
 
+        // show detail
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
@@ -59,17 +63,46 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // del item
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view,
                                            int position, long id) {
-                Log.v("brad", "LongClick:" + position);
+                //Log.v("brad", "LongClick:" + position);
+                //removeItem(position);
+                removeIndex = position;
+                showDelDialog();
                 return true;
             }
         });
 
 
 
+    }
+
+    private void showDelDialog(){
+        new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle("確認一下")
+                .setMessage("是否刪除" +
+                        data.get(removeIndex).get(from[0]) + "?")
+                .setPositiveButton("確定刪除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Log.v("brad", "index = " + removeIndex);
+                        removeItem(removeIndex);
+                    }
+                })
+                .setNegativeButton("放棄刪除", null)
+                .show();
+
+    }
+
+
+    private void removeItem(int index){
+        removeIndex = -1;
+        data.remove(index);
+        adapter.notifyDataSetChanged();
     }
 
     public void addItem(View view) {
