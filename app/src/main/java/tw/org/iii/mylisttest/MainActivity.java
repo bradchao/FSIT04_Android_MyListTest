@@ -21,19 +21,28 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initListView(){
+        String[] from = {"title", "cont"};
+        int[] to = {R.id.item_title, R.id.item_cont};
+
         LinkedList<HashMap<String,String>> data = new LinkedList<>();
         HashMap<String,String> data0 = new HashMap<>();
-        data0.put("brad1", "test1");
+        data0.put(from[0], "Hello, World");
+        data0.put(from[1], "hello, World");
         data.add(data0);
 
-        String[] from = {"brad1"};
-        int[] to = {R.id.item_title};
+        HashMap<String,String> data1 = new HashMap<>();
+        data1.put(from[0], "LayoutTest");
+        data1.put(from[1], "練習版面配置");
+        data.add(data1);
 
+        HashMap<String,String> data2 = new HashMap<>();
+        data2.put(from[0], "GuessNumber");
+        data2.put(from[1], "猜數字遊戲");
+        data.add(data2);
 
         SimpleAdapter adapter = new SimpleAdapter(this,
                 data, R.layout.item_layout,
                 from, to);
-
 
         listView.setAdapter(adapter);
     }
